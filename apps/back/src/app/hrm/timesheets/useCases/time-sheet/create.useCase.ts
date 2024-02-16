@@ -12,6 +12,7 @@ import {
 import { randomUUID } from '../../../../../utils/utils';
 import { EmployeeRepository } from '../../../../../infrastructure/db/repositories/employee.repository';
 import { TimeSheetEmployeeRepository } from '../../../../../infrastructure/db/repositories/time-sheet-employee.repository';
+import { PayType } from '../../../../../shared/enums/hrm';
 
 @Injectable()
 export class CreateUseCase
@@ -20,7 +21,7 @@ export class CreateUseCase
   constructor(
     private readonly timeSheetRepository: TimeSheetRepository,
     private readonly employeeRepository: EmployeeRepository,
-    private readonly timeSheetEmployeeRepository: TimeSheetEmployeeRepository
+    private readonly timeSheetEmployeeRepository: TimeSheetEmployeeRepository,
   ) {}
 
   async execute(data: CreateTimeSheetDto) {
@@ -45,7 +46,6 @@ export class CreateUseCase
     const employees = await this.employeeRepository.find();
 
     const tsEmployees = employees.map((employee) => {
-      console.log('here');
       return new TimeSheetEmployee({
         id: randomUUID(),
         time_sheet_id: timeSheetId,
@@ -53,7 +53,8 @@ export class CreateUseCase
         pay_type: employee.pay_type,
         pay_rate: employee.pay_rate,
         hours: 0,
-        gross_wage: 0,
+        gross_wage:
+          employee.pay_type === PayType.SALARY ? employee.pay_rate : 0,
       });
     });
 

@@ -29,6 +29,7 @@ export class LoginUseCase implements UseCaseInterface<LoginResponse> {
 
     const token = await this.getJwtToken({
       id: user.id,
+      user: user.email,
     });
 
     return {

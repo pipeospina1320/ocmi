@@ -12,7 +12,10 @@ import { EnvConfig } from '../../config/env.config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector,
+  ) {}
 
   public async canActivate(ctx: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -46,9 +49,9 @@ export class AuthGuard implements CanActivate {
 
       if (!decoded) return false;
 
+      req.token = token;
       if (decoded) return true;
     } catch (error) {
-      console.log(error);
       throw new UnauthorizedException();
     }
 

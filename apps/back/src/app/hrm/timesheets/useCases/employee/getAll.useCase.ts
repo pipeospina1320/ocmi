@@ -13,14 +13,15 @@ export class GetAllEmployeeUseCase
   implements UseCaseInterface<PaginateResponse<TimeSheetEmployee>>
 {
   constructor(
-    private readonly timeSheetEmployeeRepository: TimeSheetEmployeeRepository
+    private readonly timeSheetEmployeeRepository: TimeSheetEmployeeRepository,
   ) {}
 
   async execute(timeSheetId: string, paginateDto: PaginateDto) {
     return await paginate<TimeSheetEmployee>(
       this.timeSheetEmployeeRepository,
       paginateDto,
-      { time_sheet_id: timeSheetId }
+      { time_sheet_id: timeSheetId },
+      { employee: true },
     );
   }
 }

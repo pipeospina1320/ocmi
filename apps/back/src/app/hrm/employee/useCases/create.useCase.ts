@@ -17,7 +17,6 @@ export class CreateUseCase implements UseCaseInterface<CreateEmployeeResponse> {
   async execute(data: CreateEmployeeDto) {
     const { name, payRate, payType } = data;
 
-    console.log('here');
     const employee = await this.employeeRepository.findOne({
       where: { name },
     });

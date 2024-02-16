@@ -16,18 +16,21 @@ import { GetAllEmployeeUseCase } from '../useCases/employee/getAll.useCase';
 export class TimeSheetEmployeeController {
   constructor(
     private readonly updateEmployeeUseCase: UpdateEmployeeUseCase,
-    private readonly getAllEmployeeUseCase: GetAllEmployeeUseCase
+    private readonly getAllEmployeeUseCase: GetAllEmployeeUseCase,
   ) {}
 
-  @Patch('/')
-  async create(@Body() body: UpdateTimeSheetEmployeeDto) {
-    return await this.updateEmployeeUseCase.execute(body);
+  @Patch('/update-hours/:id')
+  async create(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() body: UpdateTimeSheetEmployeeDto,
+  ) {
+    return await this.updateEmployeeUseCase.execute(id, body);
   }
 
-  @Get('/:timeSheetId')
+  @Get('/:id')
   async getAll(
-    @Param('timeSheetId', ParseUUIDPipe) id: string,
-    @Query() params: PaginateDto
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query() params: PaginateDto,
   ) {
     return await this.getAllEmployeeUseCase.execute(id, params);
   }

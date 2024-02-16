@@ -1,6 +1,6 @@
 import { ErrorCode } from '../../utils/error.service';
 
-const AuthErrors = {
+const hrmErrors = {
   EMPLOYEE_ALREADY_EXISTS: (): ErrorCode => ({
     code: '0001',
     title: 'Employee already exists',
@@ -25,6 +25,12 @@ const AuthErrors = {
     description: "Employee doesn't exist in time sheet",
     httpCode: 400,
   }),
+  TIME_SHEET_DOES_NOT_EXIST: (): ErrorCode => ({
+    code: '0005',
+    title: "Time sheet doesn't exist",
+    description: "Time sheet doesn't exist",
+    httpCode: 400,
+  }),
 };
 
-export default AuthErrors;
+export default hrmErrors;

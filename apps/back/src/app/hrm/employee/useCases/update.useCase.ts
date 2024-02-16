@@ -18,7 +18,7 @@ export class UpdateUseCase implements UseCaseInterface<UpdateEmployeeResponse> {
     });
 
     if (!employee) {
-      throw new ServiceError(AuthErrors.EMPLOYEE_ALREADY_EXISTS());
+      throw new ServiceError(AuthErrors.EMPLOYEE_DOES_NOT_EXIST());
     }
 
     // This could be stored in DynamoDB
@@ -26,12 +26,15 @@ export class UpdateUseCase implements UseCaseInterface<UpdateEmployeeResponse> {
       [PayType.HOURLY]: 12,
       [PayType.SALARY]: 480,
     };
+    const payRateNew = payRate || employee.pay_rate;
+    const payTypeNew = payType || employee.pay_type;
 
-    if (payRate < minimumWage[payType]) {
+    if (payRateNew < minimumWage[payTypeNew]) {
       throw new ServiceError(AuthErrors.EMPLOYEE_MINIMUM_WAGE());
     }
 
     Object.assign(employee, { ...data });
+
     const updated = await this.employeeRepository.save(employee);
 
     return {

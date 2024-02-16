@@ -1,4 +1,4 @@
-import { ObjectLiteral, Repository } from 'typeorm';
+import { FindOptionsRelations, ObjectLiteral, Repository } from 'typeorm';
 import { PaginateDto } from './paginate.type';
 
 export interface PaginateResponse<Entity> {
@@ -17,7 +17,8 @@ export type WhereOptions<Entity> = {
 export async function paginate<Entity extends ObjectLiteral>(
   repository: Repository<Entity>,
   filter: PaginateDto,
-  where?: WhereOptions<Entity>
+  where?: WhereOptions<Entity>,
+  relations?: FindOptionsRelations<Entity>
 ): Promise<PaginateResponse<Entity>> {
   const { page, limit } = filter;
 
@@ -25,6 +26,7 @@ export async function paginate<Entity extends ObjectLiteral>(
     skip: page * limit,
     take: limit,
     where,
+    relations
   });
 
   const total_pages =

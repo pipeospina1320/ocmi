@@ -12,21 +12,13 @@ interface ErrorCode {
 }
 
 class ServiceError extends HttpException {
-  id: string;
-
   /**
    * error code definition
    */
   error: ErrorCode;
 
   constructor(payload: ErrorCode) {
-    super(
-      {
-        id: payload.code,
-        ...payload,
-      },
-      payload?.httpCode ?? 500
-    );
+    super(payload, payload?.httpCode ?? 500);
   }
 }
 

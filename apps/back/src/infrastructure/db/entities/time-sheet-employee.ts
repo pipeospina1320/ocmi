@@ -38,7 +38,13 @@ export class TimeSheetEmployee {
   @Column()
   hours: number;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: new DecimalColumnTransformer(),
+    default: 0,
+  })
   gross_wage: number;
 
   @ManyToOne(() => Employee, (e) => e.timeSheets)
@@ -65,7 +71,7 @@ export class TimeSheetEmployee {
     data: Omit<
       TimeSheetEmployee,
       'employee' | 'timeSheet' | 'updatedAt' | 'createdAt'
-    >
+    >,
   ) {
     Object.assign(this, data);
   }

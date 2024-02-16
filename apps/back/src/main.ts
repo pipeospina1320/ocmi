@@ -6,8 +6,8 @@ import { EnvConfig } from './config/env.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
+
+  app.enableCors();
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -16,15 +16,16 @@ async function bootstrap() {
       transformOptions: {
         enableImplicitConversion: true,
       },
-    })
+    }),
   );
+  const globalPrefix = 'api';
+  app.setGlobalPrefix(globalPrefix);
 
   const port = EnvConfig.PORT || 3000;
-
   await app.listen(port);
 
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
   );
 }
 

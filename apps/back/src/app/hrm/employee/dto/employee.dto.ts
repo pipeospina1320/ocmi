@@ -1,5 +1,5 @@
 import { PayType } from '../../../../shared/enums/hrm';
-import { IsEnum, IsNumber, IsString, Min } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class CreateEmployeeDto {
   @IsString()
@@ -22,14 +22,17 @@ export interface CreateEmployeeResponse {
 
 export class UpdateEmployeeDto {
   @IsString()
-  name: string;
+  @IsOptional()
+  name?: string;
 
   @IsEnum(PayType)
-  payType: PayType;
+  @IsOptional()
+  payType?: PayType;
 
   @IsNumber()
   @Min(0)
-  payRate: number;
+  @IsOptional()
+  payRate?: number;
 }
 
 export interface UpdateEmployeeResponse {

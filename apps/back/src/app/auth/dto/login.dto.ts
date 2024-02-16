@@ -15,4 +15,5 @@ export interface LoginResponse {
 
 export interface JwtPayload {
   id: string;
+  user: string;
 }

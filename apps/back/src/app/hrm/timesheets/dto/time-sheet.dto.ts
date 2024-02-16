@@ -1,6 +1,12 @@
-
 import { PayType } from '../../../../shared/enums/hrm';
-import { IsDate, IsEnum, IsNumber, IsString, Min } from 'class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsNumber,
+  IsString,
+  IsUUID,
+  Min,
+} from 'class-validator';
 
 export class CreateTimeSheetDto {
   @IsDate()
@@ -28,4 +34,13 @@ export class UpdateEmployeeDto {
 
 export interface UpdateEmployeeResponse {
   id: string;
+}
+
+export class InitFormTimeSheetDto {
+  @IsUUID()
+  id: string;
+}
+
+export class InitFormResponse {
+  timeSheet: any;
 }

@@ -1,10 +1,7 @@
 import { PayType } from '../../../../shared/enums/hrm';
-import { IsEnum, IsNumber, IsString, IsUUID, Min } from 'class-validator';
+import { IsEnum, IsNumber, IsString, Min } from 'class-validator';
 
 export class UpdateTimeSheetEmployeeDto {
-  @IsUUID()
-  id: string;
-
   @IsNumber()
   hours: number;
 }

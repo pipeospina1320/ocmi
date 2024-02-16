@@ -3,9 +3,8 @@ import { UserRepository } from '../../../infrastructure/db/repositories/user.rep
 import { UseCaseInterface } from '../../../shared/interfaces/useCase/useCase.interface';
 import { RegisterUserDto, RegisterUserResponse } from '../dto/register.dto';
 import AuthErrors from '../auth.errors';
-import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
-import { randomUUID } from '../../../utils/utils';
+import { hashPassword, randomUUID } from '../../../utils/utils';
 import { User } from '../../../infrastructure/db/entities-index';
 
 @Injectable()
@@ -29,7 +28,7 @@ export class RegisterUserUseCase
       throw new ServiceError(AuthErrors.USER_ALREADY_EXISTS(email));
     }
 
-    const hashedPassword = await this.hashPassword(password);
+    const hashedPassword = await hashPassword(password);
 
     const newUser = new User({
       id: randomUUID(),
@@ -42,11 +41,8 @@ export class RegisterUserUseCase
 
     return {
       user: newUser.name,
+      email: newUser.email,
+      name: newUser.name,
     };
   }
-
-  private hashPassword = async (password: string): Promise<string> => {
-    const salt = await bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt);
-  };
 }

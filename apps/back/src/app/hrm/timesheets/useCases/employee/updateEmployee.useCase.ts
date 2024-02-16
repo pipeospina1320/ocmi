@@ -14,11 +14,11 @@ export class UpdateEmployeeUseCase
   implements UseCaseInterface<CreateTimeSheetEmployeeResponse>
 {
   constructor(
-    private readonly timeSheetEmployeeRepository: TimeSheetEmployeeRepository
+    private readonly timeSheetEmployeeRepository: TimeSheetEmployeeRepository,
   ) {}
 
-  async execute(data: UpdateTimeSheetEmployeeDto) {
-    const { id, hours } = data;
+  async execute(id: string, data: UpdateTimeSheetEmployeeDto) {
+    const { hours } = data;
 
     const employee = await this.timeSheetEmployeeRepository.findOne({
       where: { id },
@@ -26,22 +26,22 @@ export class UpdateEmployeeUseCase
 
     if (!employee) {
       throw new ServiceError(
-        AuthErrors.EMPLOYEE_DOES_NOT_EXIST_IN_TIME_SHEET()
+        AuthErrors.EMPLOYEE_DOES_NOT_EXIST_IN_TIME_SHEET(),
       );
     }
 
     let grossWage = 0;
     if (employee.pay_type === PayType.HOURLY) {
       grossWage = employee.pay_rate * hours;
+      employee.hours = hours;
     } else {
       grossWage = employee.pay_rate;
     }
 
-    employee.hours = hours;
     employee.gross_wage = grossWage;
-    const storedEmployee = await this.timeSheetEmployeeRepository.save(
-      employee
-    );
+
+    const storedEmployee =
+      await this.timeSheetEmployeeRepository.save(employee);
 
     return {
       id: storedEmployee.id,

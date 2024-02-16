@@ -8,6 +8,7 @@ import { GetAllEmployeeUseCase } from './useCases/employee/getAll.useCase';
 import { TimeSheetEmployeeController } from './controllers/time-sheet-employee.controller';
 import { UpdateEmployeeUseCase } from './useCases/employee/updateEmployee.useCase';
 import { GetAllTimeSheetUseCase } from './useCases/time-sheet/getAll.useCase';
+import { InitFormTimeSheetUseCase } from './useCases/time-sheet/initForm.useCase';
 
 @Module({
   imports: [],
@@ -17,6 +18,7 @@ import { GetAllTimeSheetUseCase } from './useCases/time-sheet/getAll.useCase';
     GetAllEmployeeUseCase,
     UpdateEmployeeUseCase,
     GetAllTimeSheetUseCase,
+    InitFormTimeSheetUseCase,
     TimeSheetRepository,
     EmployeeRepository,
     TimeSheetEmployeeRepository,
